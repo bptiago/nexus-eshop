@@ -1,1 +1,56 @@
-<p>login works!</p>
+<form
+  action=""
+  class="w-25 mx-auto mt-5 border rounded-4 p-5"
+  style="min-width: 350px"
+  [formGroup]="formGroup"
+>
+  <div *ngIf="submitError.showAlert" class="alert alert-danger" role="alert">
+    {{ submitError.message }}
+  </div>
+  <h2 class="text-center mb-4">Entrar</h2>
+  <div class="mb-3">
+    <label for="email" class="form-label">E-mail</label>
+    <input
+      placeholder="exemplo@email.com"
+      type="email"
+      class="form-control"
+      id="email"
+      formControlName="email"
+    />
+    <div
+      class="invalid-feedback"
+      [style.display]="
+        formGroup.controls.email.invalid && formGroup.controls.email.touched
+          ? 'block'
+          : 'none'
+      "
+    >
+      Digite o e-mail corretamente.
+    </div>
+  </div>
+  <div class="mb-4">
+    <label for="password" class="form-label">Senha</label>
+    <input
+      type="password"
+      class="form-control"
+      id="password"
+      formControlName="password"
+    />
+    <div
+      class="invalid-feedback"
+      [style.display]="
+        formGroup.controls.password.invalid &&
+        formGroup.controls.password.touched
+          ? 'block'
+          : 'none'
+      "
+    >
+      A senha precisa conter pelo menos 8 caracteres. No mínimo, um maiúsculo,
+      um minúsculo e um número.
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100" (click)="onSubmit()">
+    Entrar
+  </button>
+</form>

@@ -15,4 +15,8 @@ export class UserService {
   getById(key: string) {
     return this.db.object('users/' + key).valueChanges();
   }
+
+  getAll() {
+    return this.db.list<UserModel>('users').valueChanges();
+  }
 }
