@@ -1,56 +1,74 @@
 <form
   action=""
-  class="w-25 mx-auto mt-5 border rounded-4 p-5"
+  class="mx-auto mt-5 border rounded-4 d-flex w-50"
   style="min-width: 350px"
   [formGroup]="formGroup"
 >
-  <div *ngIf="submitError.showAlert" class="alert alert-danger" role="alert">
-    {{ submitError.message }}
-  </div>
-  <h2 class="text-center mb-4">Entrar</h2>
-  <div class="mb-3">
-    <label for="email" class="form-label">E-mail</label>
-    <input
-      placeholder="exemplo@email.com"
-      type="email"
-      class="form-control"
-      id="email"
-      formControlName="email"
-    />
-    <div
-      class="invalid-feedback"
-      [style.display]="
-        formGroup.controls.email.invalid && formGroup.controls.email.touched
-          ? 'block'
-          : 'none'
-      "
-    >
-      Digite o e-mail corretamente.
+  <img
+    class="w-50 bg-image rounded-start-4"
+    src="../../assets/bg-login.png"
+    alt=""
+    srcset=""
+  />
+  <div class="mx-auto py-5" style="min-width: 250px; width: 35%">
+    <div *ngIf="submitError.showAlert" class="alert alert-danger" role="alert">
+      {{ submitError.message }}
     </div>
-  </div>
-  <div class="mb-4">
-    <label for="password" class="form-label">Senha</label>
-    <input
-      type="password"
-      class="form-control"
-      id="password"
-      formControlName="password"
-    />
-    <div
-      class="invalid-feedback"
-      [style.display]="
-        formGroup.controls.password.invalid &&
-        formGroup.controls.password.touched
-          ? 'block'
-          : 'none'
-      "
-    >
-      A senha precisa conter pelo menos 8 caracteres. No mínimo, um maiúsculo,
-      um minúsculo e um número.
+    <h2 class="text-center mb-3">Entrar</h2>
+    <p class="text-center text-secondary mb-5">
+      Bem-vindo novamente! Faça o login para poder prosseguir com suas compras.
+    </p>
+    <div class="mb-4">
+      <input
+        placeholder="E-mail"
+        type="email"
+        class="form-control"
+        id="email"
+        formControlName="email"
+      />
+      <div
+        class="invalid-feedback"
+        [style.display]="
+          formGroup.controls.email.invalid && formGroup.controls.email.touched
+            ? 'block'
+            : 'none'
+        "
+      >
+        Digite o e-mail corretamente.
+      </div>
     </div>
-  </div>
+    <div class="mb-4">
+      <input
+        type="password"
+        class="form-control"
+        placeholder="Senha"
+        id="password"
+        formControlName="password"
+      />
+      <div
+        class="invalid-feedback"
+        [style.display]="
+          formGroup.controls.password.invalid &&
+          formGroup.controls.password.touched
+            ? 'block'
+            : 'none'
+        "
+      >
+        A senha precisa conter pelo menos 8 caracteres. No mínimo, um maiúsculo,
+        um minúsculo e um número.
+      </div>
+    </div>
 
-  <button type="submit" class="btn btn-primary w-100" (click)="onSubmit()">
-    Entrar
-  </button>
+    <button
+      type="submit"
+      class="btn btn-primary w-100 mt-4"
+      (click)="onSubmit()"
+    >
+      Entrar
+    </button>
+    <p class="text-center text-secondary mt-4 mb-0">
+      Ainda não tem uma conta?
+      <a [routerLink]="['/signUp']" class="text-decoration-none">Registre-se</a>
+    </p>
+  </div>
 </form>
