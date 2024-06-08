@@ -3,3 +3,8 @@ export type UserModel = {
   email: string;
   password: string;
 };
+
+export interface User {
+  uid: string;
+  email: string;
+}

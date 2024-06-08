@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { UserModel } from './model/user.model';
+import { SellerModel } from './model/seller.model';
 
 @Injectable({
   providedIn: 'root',
@@ -8,15 +9,15 @@ import { UserModel } from './model/user.model';
 export class UserService {
   constructor(private db: AngularFireDatabase) {}
 
-  save(user: UserModel) {
-    return this.db.list('users').push(user);
+  save(user: UserModel | SellerModel, userType: 'users' | 'sellers') {
+    return this.db.list(userType).push(user);
   }
 
-  getById(key: string) {
-    return this.db.object('users/' + key).valueChanges();
+  getById(key: string, userType: 'users' | 'sellers') {
+    return this.db.object(`${userType}/` + key).valueChanges();
   }
 
-  getAll() {
-    return this.db.list<UserModel>('users').valueChanges();
+  getAll(userType: 'users' | 'sellers') {
+    return this.db.list<UserModel>(userType).valueChanges();
   }
 }

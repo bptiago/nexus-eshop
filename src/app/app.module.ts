@@ -14,6 +14,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
+import { SignUpSellerComponent } from './sign-up-seller/sign-up-seller.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { LoginComponent } from './login/login.component';
     IndexComponent,
     SignUpComponent,
     LoginComponent,
+    SignUpSellerComponent,
   ],
   imports: [
     BrowserModule,

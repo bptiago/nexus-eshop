@@ -1,18 +1,15 @@
 import { Component, NgZone } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../user/user.service';
-import { UserModel } from '../user/model/user.model';
 import { Router } from '@angular/router';
 import { SellerModel } from '../user/model/seller.model';
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.css',
+  selector: 'app-sign-up-seller',
+  templateUrl: './sign-up-seller.component.html',
+  styleUrl: './sign-up-seller.component.css',
 })
-
-// Mudar isso para user normal depois
-export class SignUpComponent {
+export class SignUpSellerComponent {
   constructor(
     private userService: UserService,
     public ngZone: NgZone,

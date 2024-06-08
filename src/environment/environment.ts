@@ -1,8 +1,7 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    // Quando for usar, me manda uma mensagem para pegar a chave da API.
-    apiKey: '',
+    apiKey: 'AIzaSyDfPVAmXAw27byQ5AGP8uQXbGyP0gAmJO8',
     authDomain: 'nexus-1770e.firebaseapp.com',
     databaseURL: 'https://nexus-1770e-default-rtdb.firebaseio.com',
     projectId: 'nexus-1770e',

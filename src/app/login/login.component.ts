@@ -34,7 +34,7 @@ export class LoginComponent {
     const email = this.formGroup.controls.email.value!.toString();
     const password = this.formGroup.controls.password.value!.toString();
 
-    this.userService.getAll().forEach((usersList) => {
+    this.userService.getAll('users').forEach((usersList) => {
       const filteredUsers = usersList.filter((rawUser) => {
         const user = rawUser as UserModel;
         if (user.email === email && user.password === password) return user;
