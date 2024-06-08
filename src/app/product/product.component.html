@@ -8,7 +8,7 @@
     Ocorreu um erro! {{ submitError.message }}
   </div>
   <h2 class="text-center mb-4" style="letter-spacing: 1px">
-    Adicione um produto
+    {{ this.key ? "Atualize um produto" : "Adicione um produto" }}
   </h2>
 
   <div class="container grid">
@@ -171,6 +171,6 @@
   </div>
 
   <button type="submit" class="btn btn-primary w-100" (click)="onSubmit()">
-    Cadastrar produto
+    {{ this.key ? "Atualizar produto" : "Cadastrar produto" }}
   </button>
 </form>

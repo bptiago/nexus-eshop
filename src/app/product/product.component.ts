@@ -1,6 +1,6 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from './service/product.service';
 import { ProductModel } from './model/product.model';
 
@@ -9,12 +9,24 @@ import { ProductModel } from './model/product.model';
   templateUrl: './product.component.html',
   styleUrl: './product.component.css',
 })
-export class ProductComponent {
+export class ProductComponent implements OnInit {
   constructor(
     private productService: ProductService,
+    private actRouter: ActivatedRoute,
     public ngZone: NgZone,
     public router: Router
   ) {}
+
+  ngOnInit() {
+    this.actRouter.paramMap.subscribe((paramMap) => {
+      this.key = paramMap.get('key')?.toString();
+      if (this.key) {
+        this.productService.getByKey(this.key).subscribe((product: any) => {
+          this.productForm.patchValue(product);
+        });
+      }
+    });
+  }
 
   setImage = false;
 
@@ -22,6 +34,8 @@ export class ProductComponent {
     message: 'Houve um erro ao tentar realizar o cadastro!',
     showAlert: false,
   };
+
+  key?: string;
 
   productForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -51,16 +65,26 @@ export class ProductComponent {
     }
 
     const product = this.productForm.value as ProductModel;
-    this.productService
-      .save(product)
-      .then(() => {
-        console.log('Produto cadastrado');
-      })
-      .catch((error) => {
-        this.submitError = {
-          message: error.toString(),
-          showAlert: true,
-        };
-      });
+
+    if (this.key) {
+      this.productService
+        .update(this.key, product)
+        .then((result) => {
+          console.log('Produto atualizado');
+        })
+        .catch((error) => console.log(error.toString()));
+    } else {
+      this.productService
+        .save(product)
+        .then(() => {
+          console.log('Produto cadastrado');
+        })
+        .catch((error) => {
+          this.submitError = {
+            message: error.toString(),
+            showAlert: true,
+          };
+        });
+    }
   }
 }

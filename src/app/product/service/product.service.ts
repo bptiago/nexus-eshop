@@ -17,6 +17,14 @@ export class ProductService {
     return this.db.list('product').push(product);
   }
 
+  getByKey(key: any) {
+    return this.db.object('product/' + key).valueChanges();
+  }
+
+  update(key: any, product: ProductModel) {
+    return this.db.object('product/' + key).update(product);
+  }
+
   uploadImage(file: any) {
     const path = 'images/' + file.name;
     const ref = this.storage.ref(path);
