@@ -1,15 +1,15 @@
 import { Component, NgZone } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../user/user.service';
+import { UserModel } from '../user/model/user.model';
 import { Router } from '@angular/router';
-import { SellerModel } from '../user/model/seller.model';
 
 @Component({
-  selector: 'app-sign-up-seller',
-  templateUrl: './sign-up-seller.component.html',
-  styleUrl: './sign-up-seller.component.css',
+  selector: 'app-sign-up-user',
+  templateUrl: './sign-up-user.component.html',
+  styleUrl: './sign-up-user.component.css',
 })
-export class SignUpSellerComponent {
+export class SignUpUserComponent {
   constructor(
     private userService: UserService,
     public ngZone: NgZone,
@@ -29,7 +29,7 @@ export class SignUpSellerComponent {
     ]),
     name: new FormControl('', [Validators.required]),
     surname: new FormControl('', [Validators.required]),
-    company: new FormControl('', [Validators.required]),
+    address: new FormControl('', [Validators.required]),
     ddd: new FormControl('', [
       Validators.required,
       Validators.pattern(/^\d{2}$/),
@@ -38,9 +38,9 @@ export class SignUpSellerComponent {
       Validators.required,
       Validators.pattern(/^\d{5}-\d{4}$/),
     ]),
-    cnpj: new FormControl('', [
+    cpf: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$/),
+      Validators.pattern(/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/),
     ]),
   });
 
@@ -53,15 +53,13 @@ export class SignUpSellerComponent {
     }
   }
 
-  maskCpnj() {
-    const input = document.getElementById('cnpj') as HTMLInputElement;
+  maskCpf() {
+    const input = document.getElementById('cpf') as HTMLInputElement;
     let length = input.value.length;
 
-    if (length === 2 || length === 6) {
+    if (length === 3 || length === 7) {
       input.value += '.';
-    } else if (length === 10) {
-      input.value += '/';
-    } else if (length === 15) {
+    } else if (length === 11) {
       input.value += '-';
     }
   }
@@ -77,10 +75,10 @@ export class SignUpSellerComponent {
       this.signUpForm.controls.phoneNumber.value!;
 
     const { ddd, phoneNumber, ...userInfo } = this.signUpForm.value;
-    const user = { phone: phone, ...userInfo } as SellerModel;
+    const user = { phone: phone, ...userInfo } as UserModel;
 
     this.userService
-      .save(user, 'sellers')
+      .save(user, 'users')
       .then(() => {
         console.log('Usuário cadastrado.');
       })

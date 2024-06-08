@@ -1,9 +1,8 @@
-import { Component, NgZone } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
 import { UserService } from '../user/user.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserModel } from '../user/model/user.model';
 import { Router } from '@angular/router';
-import { SellerModel } from '../user/model/seller.model';
 
 @Component({
   selector: 'app-sign-up',
@@ -13,85 +12,55 @@ import { SellerModel } from '../user/model/seller.model';
 
 // Mudar isso para user normal depois
 export class SignUpComponent {
-  constructor(
-    private userService: UserService,
-    public ngZone: NgZone,
-    public router: Router
-  ) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   submitError = {
-    message: 'Houve um erro ao tentar realizar o cadastro!',
+    message: 'Houve um error ao tentar fazer login!',
     showAlert: false,
   };
 
-  signUpForm = new FormGroup({
+  formGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
       Validators.required,
       Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}'),
     ]),
-    name: new FormControl('', [Validators.required]),
-    surname: new FormControl('', [Validators.required]),
-    company: new FormControl('', [Validators.required]),
-    ddd: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^\d{2}$/),
-    ]),
-    phoneNumber: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^\d{5}-\d{4}$/),
-    ]),
-    cnpj: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$/),
-    ]),
   });
 
-  maskPhoneNumber() {
-    const input = document.getElementById('phoneNumber') as HTMLInputElement;
-    let length = input.value.length;
-
-    if (length === 5) {
-      input.value += '-';
-    }
-  }
-
-  maskCpnj() {
-    const input = document.getElementById('cnpj') as HTMLInputElement;
-    let length = input.value.length;
-
-    if (length === 2 || length === 6) {
-      input.value += '.';
-    } else if (length === 10) {
-      input.value += '/';
-    } else if (length === 15) {
-      input.value += '-';
-    }
-  }
-
   onSubmit(): void {
-    if (this.signUpForm.invalid) {
-      this.signUpForm.markAllAsTouched();
+    if (this.formGroup.invalid) {
+      this.formGroup.markAllAsTouched();
       return;
     }
 
-    const phone =
-      `(${this.signUpForm.controls.ddd.value!})` +
-      this.signUpForm.controls.phoneNumber.value!;
+    const email = this.formGroup.controls.email.value!.toString();
+    const password = this.formGroup.controls.password.value!.toString();
 
-    const { ddd, phoneNumber, ...userInfo } = this.signUpForm.value;
-    const user = { phone: phone, ...userInfo } as SellerModel;
+    this.userService.getAll('users').forEach((usersList) => {
+      const filteredUsers = usersList.filter((rawUser) => {
+        const user = rawUser as UserModel;
+        if (user.email === email && user.password === password) return user;
 
-    this.userService
-      .save(user, 'sellers')
-      .then(() => {
-        console.log('Usuário cadastrado.');
-      })
-      .catch((error) => {
-        this.submitError = {
-          message: error.toString(),
-          showAlert: true,
-        };
+        return;
       });
+
+      if (filteredUsers.length < 1) {
+        this.submitError = {
+          showAlert: true,
+          message: 'E-mail ou senha incorretos. Favor tentar novamente.',
+        };
+      } else if (filteredUsers.length === 1) {
+        console.log('Deu certo. Ir para o portal do usuário');
+        this.router.navigate(['/']);
+      } else {
+        this.submitError = {
+          showAlert: true,
+          message:
+            'Erro de registro. Foram encontrados múltiplos usuários correspondentes.',
+        };
+      }
+    });
+
+    return;
   }
 }

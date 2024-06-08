@@ -1,0 +1,201 @@
+<form
+  action=""
+  class="mx-auto mt-5 border rounded-4 p-5"
+  style="min-width: 420px; width: 45%"
+  [formGroup]="signUpForm"
+>
+  <div *ngIf="submitError.showAlert" class="alert alert-danger" role="alert">
+    Ocorreu um erro! {{ submitError.message }}
+  </div>
+  <h2 class="text-center mb-4" style="letter-spacing: 1px">Crie uma conta</h2>
+
+  <div class="container grid">
+    <div class="row mb-4">
+      <div class="col-3">
+        <b>Nome:</b>
+      </div>
+      <div class="col">
+        <div class="d-flex justify-content-between gap-3">
+          <input
+            placeholder="Nome"
+            type="text"
+            class="form-control"
+            id="name"
+            formControlName="name"
+          />
+          <input
+            placeholder="Sobrenome"
+            type="text"
+            class="form-control"
+            id="surname"
+            formControlName="surname"
+          />
+        </div>
+        <div
+          class="invalid-feedback"
+          [style.display]="
+            (signUpForm.controls.name.invalid &&
+              signUpForm.controls.name.touched) ||
+            (signUpForm.controls.surname.invalid &&
+              signUpForm.controls.surname.touched)
+              ? 'block'
+              : 'none'
+          "
+        >
+          Campos obrigatórios.
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-3">
+        <b>E-mail:</b>
+      </div>
+      <div class="col">
+        <input
+          placeholder="email@email.com"
+          type="email"
+          class="form-control"
+          id="email"
+          formControlName="email"
+        />
+        <div
+          class="invalid-feedback"
+          [style.display]="
+            signUpForm.controls.email.invalid &&
+            signUpForm.controls.email.touched
+              ? 'block'
+              : 'none'
+          "
+        >
+          Digite o e-mail corretamente.
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-3">
+        <b>Endereço:</b>
+      </div>
+      <div class="col">
+        <input
+          placeholder="Endereço"
+          type="text"
+          class="form-control"
+          id="address"
+          formControlName="address"
+        />
+        <div
+          class="invalid-feedback"
+          [style.display]="
+            signUpForm.controls.address.invalid &&
+            signUpForm.controls.address.touched
+              ? 'block'
+              : 'none'
+          "
+        >
+          Campo obrigatório.
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-3">
+        <b>Telefone:</b>
+      </div>
+      <div class="col">
+        <div class="d-flex justify-content-between gap-3">
+          <div class="w-25">
+            <input
+              placeholder=""
+              type="text"
+              class="form-control w-100"
+              id="ddd"
+              formControlName="ddd"
+              maxlength="2"
+            />
+            <label for="ddd" class="fs-6">DDD</label>
+          </div>
+          <div class="w-100">
+            <input
+              placeholder=""
+              type="text"
+              class="form-control w-100"
+              maxlength="10"
+              id="phoneNumber"
+              formControlName="phoneNumber"
+              (keypress)="maskPhoneNumber()"
+            />
+            <label for="numero" class="">Número</label>
+          </div>
+        </div>
+        <div
+          class="invalid-feedback"
+          [style.display]="
+            (signUpForm.controls.phoneNumber.invalid &&
+              signUpForm.controls.phoneNumber.touched) ||
+            (signUpForm.controls.ddd.invalid && signUpForm.controls.ddd.touched)
+              ? 'block'
+              : 'none'
+          "
+        >
+          Digite um telefone válido.
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-3">
+        <b>CPF:</b>
+      </div>
+      <div class="col">
+        <input
+          placeholder=""
+          type="text"
+          class="form-control"
+          id="cpf"
+          formControlName="cpf"
+          maxlength="18"
+          autocomplete="off"
+          (keypress)="maskCpf()"
+        />
+        <div
+          class="invalid-feedback"
+          [style.display]="
+            signUpForm.controls.cpf.invalid && signUpForm.controls.cpf.touched
+              ? 'block'
+              : 'none'
+          "
+        >
+          Campo obrigatório.
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-3">
+        <b>Senha:</b>
+      </div>
+      <div class="col">
+        <input
+          placeholder=""
+          type="password"
+          class="form-control"
+          id="password"
+          formControlName="password"
+        />
+        <div
+          class="invalid-feedback"
+          [style.display]="
+            signUpForm.controls.password.invalid &&
+            signUpForm.controls.password.touched
+              ? 'block'
+              : 'none'
+          "
+        >
+          A senha precisa conter pelo menos 8 caracteres. No mínimo, um
+          maiúsculo, um minúsculo e um número.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100" (click)="onSubmit()">
+    Registrar
+  </button>
+</form>
