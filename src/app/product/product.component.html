@@ -1,0 +1,176 @@
+<form
+  action=""
+  class="mx-auto mt-5 border rounded-4 p-5"
+  style="min-width: 420px; width: 35%"
+  [formGroup]="productForm"
+>
+  <div *ngIf="submitError.showAlert" class="alert alert-danger" role="alert">
+    Ocorreu um erro! {{ submitError.message }}
+  </div>
+  <h2 class="text-center mb-4" style="letter-spacing: 1px">
+    Adicione um produto
+  </h2>
+
+  <div class="container grid">
+    <div class="row mb-4">
+      <div class="col-3">
+        <b>Nome:</b>
+      </div>
+      <div class="col">
+        <div class="d-flex justify-content-between gap-3">
+          <input
+            placeholder="Nome"
+            type="text"
+            class="form-control"
+            id="name"
+            formControlName="name"
+          />
+        </div>
+        <div
+          class="invalid-feedback"
+          [style.display]="
+            productForm.controls.name.invalid &&
+            productForm.controls.name.touched
+              ? 'block'
+              : 'none'
+          "
+        >
+          Campo obrigatório.
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-3">
+        <b>Marca:</b>
+      </div>
+      <div class="col">
+        <div class="d-flex justify-content-between gap-3">
+          <input
+            placeholder=""
+            type="text"
+            class="form-control"
+            id="brand"
+            formControlName="brand"
+          />
+        </div>
+        <div
+          class="invalid-feedback"
+          [style.display]="
+            productForm.controls.brand.invalid &&
+            productForm.controls.brand.touched
+              ? 'block'
+              : 'none'
+          "
+        >
+          Campo obrigatório.
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-3">
+        <b>Tamanho:</b>
+      </div>
+      <div class="col">
+        <div class="d-flex justify-content-between gap-3">
+          <input
+            placeholder="Exemplo: 38"
+            type="text"
+            class="form-control"
+            id="size"
+            formControlName="size"
+          />
+        </div>
+        <div
+          class="invalid-feedback"
+          [style.display]="
+            productForm.controls.size.invalid &&
+            productForm.controls.size.touched
+              ? 'block'
+              : 'none'
+          "
+        >
+          Campo obrigatório.
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-3">
+        <b>Preço:</b>
+      </div>
+      <div class="col">
+        <input
+          type="text"
+          class="form-control"
+          id="price"
+          formControlName="price"
+        />
+        <div
+          class="invalid-feedback"
+          [style.display]="
+            productForm.controls.price.invalid &&
+            productForm.controls.price.touched
+              ? 'block'
+              : 'none'
+          "
+        >
+          Digite o preço corretamente, numero inteiro (10) ou com vírgula
+          (10,50).
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-3">
+        <b>Descrição:</b>
+      </div>
+      <div class="col">
+        <input
+          placeholder="Descreva o material e as qualidades de seu produto."
+          type="text"
+          class="form-control"
+          id="description"
+          formControlName="description"
+        />
+        <div
+          class="invalid-feedback"
+          [style.display]="
+            productForm.controls.description.invalid &&
+            productForm.controls.description.touched
+              ? 'block'
+              : 'none'
+          "
+        >
+          Campo obrigatório.
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-3">
+        <b>Imagem:</b>
+      </div>
+      <div class="col">
+        <input
+          placeholder=""
+          type="file"
+          class="form-control"
+          id="upload"
+          (change)="selectFile($event)"
+        />
+        <div
+          class="invalid-feedback"
+          [style.display]="
+            productForm.controls.image.invalid &&
+            productForm.controls.image.touched
+              ? 'block'
+              : 'none'
+          "
+        >
+          Campo obrigatório
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100" (click)="onSubmit()">
+    Cadastrar produto
+  </button>
+</form>

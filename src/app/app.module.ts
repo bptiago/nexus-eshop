@@ -11,11 +11,13 @@ import { IndexComponent } from './index/index.component';
 import { environment } from '../environment/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { SignUpSellerComponent } from './sign-up-seller/sign-up-seller.component';
 import { SignUpUserComponent } from './sign-up-user/sign-up-user.component';
+import { ProductComponent } from './product/product.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { SignUpUserComponent } from './sign-up-user/sign-up-user.component';
     LoginComponent,
     SignUpSellerComponent,
     SignUpUserComponent,
+    ProductComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +36,8 @@ import { SignUpUserComponent } from './sign-up-user/sign-up-user.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
     ReactiveFormsModule,
+    AngularFireModule,
+    AngularFireStorageModule,
   ],
   providers: [provideClientHydration()],
   bootstrap: [AppComponent],

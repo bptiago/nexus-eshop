@@ -1,5 +1,5 @@
 export interface SellerModel {
-  id?: number;
+  key?: number;
   name: string;
   surname: string;
   email: string;
