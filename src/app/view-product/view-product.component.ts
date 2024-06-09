@@ -27,4 +27,14 @@ export class ViewProductComponent implements OnInit {
 
   key?: string;
   product!: ProductModel;
+
+  buyProduct() {
+    const cartItems = sessionStorage.getItem('cart');
+    if (cartItems) {
+      const newCartItems = cartItems + `;${JSON.stringify(this.product)}`;
+      sessionStorage.setItem('cart', newCartItems);
+    } else {
+      sessionStorage.setItem('cart', JSON.stringify(this.product));
+    }
+  }
 }

@@ -1,0 +1,32 @@
+<div>
+  <h2 class="text-center my-3">Carrinho</h2>
+  <p *ngIf="isCartEmpty" class="text-center">Não há itens no seu carrinho...</p>
+  <div *ngFor="let item of cartItems">
+    <div class="container w-50">
+      <div class="grid row mb-3 p-4 rounded-4 border">
+        <img
+          src="{{ item.image }}"
+          alt="teste"
+          style="width: 15%; min-width: 150px; height: 130px"
+          class="col-3 rounded-4"
+        />
+        <div class="col-6">
+          <div class="mx-5">
+            <h4>{{ item.name }}</h4>
+            <p>Tamanho: {{ item.size }}</p>
+            <p>R${{ item.price }}</p>
+          </div>
+        </div>
+        <div class="col d-flex align-items-center justify-content-center">
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="removeItem(item.name, item.price)"
+          >
+            Remover
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
