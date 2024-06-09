@@ -26,82 +26,30 @@
     </div>
   </section>
   <section class="w-75">
-    <h1 class="text-uppercase text-center">Nova coleção</h1>
+    <h1 class="text-uppercase text-center">Mais populares</h1>
     <p class="text-center text-black-50">
-      Nossa última coleção. Aproveite os lançamentos!
+      Confira os nossos itens mais populares!
     </p>
-    <div class="row row-cols-3 justify-content-center gap-3">
-      <div class="card border border-0 p-2 item-card" style="width: 25rem">
-        <img
-          src="../../../assets/jacket.jpg"
-          class="card-img-top rounded-4 object-fit-cover"
-          alt="..."
-        />
-        <div class="d-flex flex-column row-gap-0 p-0 mt-1">
-          <h5 class="fw-bold mb-0">Card title</h5>
-          <p class="text-black-50 mb-1">Jaqueta Bege Vintage</p>
-          <h5 class="f2-bold">R$XX</h5>
-        </div>
-      </div>
-      <div class="card border border-0 p-2 item-card" style="width: 25rem">
-        <img
-          src="../../../assets/jacket.jpg"
-          class="card-img-top rounded-4 object-fit-cover"
-          alt="..."
-        />
-        <div class="d-flex flex-column row-gap-0 p-0 mt-1">
-          <h5 class="fw-bold mb-0">Card title</h5>
-          <p class="text-black-50 mb-1">Jaqueta Bege Vintage</p>
-          <h5 class="f2-bold">R$XX</h5>
-        </div>
-      </div>
-      <div class="card border border-0 p-2 item-card" style="width: 25rem">
-        <img
-          src="../../../assets/jacket.jpg"
-          class="card-img-top rounded-4 object-fit-cover"
-          alt="..."
-        />
-        <div class="d-flex flex-column row-gap-0 p-0 mt-1">
-          <h5 class="fw-bold mb-0">Card title</h5>
-          <p class="text-black-50 mb-1">Jaqueta Bege Vintage</p>
-          <h5 class="f2-bold">R$XX</h5>
-        </div>
-      </div>
-      <div class="card border border-0 p-2 item-card" style="width: 25rem">
-        <img
-          src="../../../assets/jacket.jpg"
-          class="card-img-top rounded-4 object-fit-cover"
-          alt="..."
-        />
-        <div class="d-flex flex-column row-gap-0 p-0 mt-1">
-          <h5 class="fw-bold mb-0">Card title</h5>
-          <p class="text-black-50 mb-1">Jaqueta Bege Vintage</p>
-          <h5 class="f2-bold">R$XX</h5>
-        </div>
-      </div>
-      <div class="card border border-0 p-2 item-card" style="width: 25rem">
-        <img
-          src="../../../assets/jacket.jpg"
-          class="card-img-top rounded-4 object-fit-cover"
-          alt="..."
-        />
-        <div class="d-flex flex-column row-gap-0 p-0 mt-1">
-          <h5 class="fw-bold mb-0">Card title</h5>
-          <p class="text-black-50 mb-1">Jaqueta Bege Vintage</p>
-          <h5 class="f2-bold">R$XX</h5>
-        </div>
-      </div>
-      <div class="card border border-0 p-2 item-card" style="width: 25rem">
-        <img
-          src="../../../assets/jacket.jpg"
-          class="card-img-top rounded-4 object-fit-cover"
-          alt="..."
-        />
-        <div class="d-flex flex-column row-gap-0 p-0 mt-1">
-          <h5 class="fw-bold mb-0">Card title</h5>
-          <p class="text-black-50 mb-1">Jaqueta Bege Vintage</p>
-          <h5 class="f2-bold">R$XX</h5>
-        </div>
+    <div class="row row-cols-auto justify-content-center gap-3">
+      <div *ngFor="let product of this.products">
+        <a
+          [routerLink]="['/viewProduct/' + product.key]"
+          class="text-decoration-none"
+        >
+          <div class="card border border-0 p-2 item-card" style="width: 25rem">
+            <img
+              src="{{ product.image }}"
+              class="card-img-top rounded-4 object-fit-cover"
+              style="height: 300px"
+              alt="..."
+            />
+            <div class="d-flex flex-column row-gap-0 p-0 mt-1">
+              <h5 class="fw-bold mb-0">{{ product.name }}</h5>
+              <p class="text-black-50 mb-1">{{ product.brand }}</p>
+              <h5 class="f2-bold">R${{ product.price }}</h5>
+            </div>
+          </div>
+        </a>
       </div>
     </div>
   </section>

@@ -24,7 +24,16 @@
           <a class="nav-link active" aria-current="page" href="#">Sobre</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
+      <a [routerLink]="['/login']" class="text-decoration-none">
+        <button type="button" class="btn btn-outline-primary mx-2">
+          Login
+        </button>
+      </a>
+      <a [routerLink]="['/signUp']" class="text-decoration-none">
+        <button type="button" class="btn btn-primary">Registrar</button>
+      </a>
+
+      <!-- <form class="d-flex" role="search">
         <input
           class="form-control me-2"
           type="search"
@@ -32,7 +41,7 @@
           aria-label="Search"
         />
         <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+      </form> -->
     </div>
   </div>
 </nav>

@@ -18,6 +18,7 @@ import { LoginComponent } from './login/login.component';
 import { SignUpSellerComponent } from './sign-up-seller/sign-up-seller.component';
 import { SignUpUserComponent } from './sign-up-user/sign-up-user.component';
 import { ProductComponent } from './product/product.component';
+import { ViewProductComponent } from './view-product/view-product.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ProductComponent } from './product/product.component';
     SignUpSellerComponent,
     SignUpUserComponent,
     ProductComponent,
+    ViewProductComponent,
   ],
   imports: [
     BrowserModule,
