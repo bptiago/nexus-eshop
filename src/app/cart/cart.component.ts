@@ -1,38 +1,52 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductModel } from '../product/model/product.model';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css',
+  styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  cartItems?: ProductModel[];
-  isCartEmpty = false;
-
-  constructor() {}
+  cartItems: any[] = [];
+  isCartEmpty: boolean = true;
 
   ngOnInit(): void {
-    const items = sessionStorage.getItem('cart');
-    if (items) {
-      this.cartItems = items
-        ?.split(';')
-        .map((item) => JSON.parse(item) as ProductModel);
-    } else {
-      this.isCartEmpty = true;
+    if (typeof window !== 'undefined') {
+      this.loadCartItems();
     }
   }
 
-  removeItem(itemName: string, itemPrice: string) {
-    this.cartItems = this.cartItems?.filter(
-      (item) => itemName !== item.name && itemPrice !== item.price
-    );
+  loadCartItems(): void {
+    const cart = sessionStorage.getItem('cart');
+    if (cart) {
+      this.cartItems = cart.split(';').map((item: string) => JSON.parse(item));
+      this.isCartEmpty = this.cartItems.length === 0;
+    }
+  }
 
-    const itemsToString = this.cartItems
-      ?.map((item) => JSON.stringify(item))
-      .join(';');
-    sessionStorage.setItem('cart', itemsToString!);
+  removeItem(name: string, price: number): void {
+    this.cartItems = this.cartItems.filter(item => item.name !== name || item.price !== price);
+    sessionStorage.setItem('cart', this.cartItems.map(item => JSON.stringify(item)).join(';'));
+    this.isCartEmpty = this.cartItems.length === 0;
+  }
 
-    if (this.cartItems?.length === 0) this.isCartEmpty = true;
+  finalizePurchase(): void {
+    if (typeof window !== 'undefined') {
+      this.cartItems = [];
+      sessionStorage.removeItem('cart');
+      this.isCartEmpty = true;
+      this.showSuccessModal();
+    }
+  }
+
+  showSuccessModal(): void {
+    if (typeof window !== 'undefined') {
+      const modalElement = document.getElementById('successModal');
+      if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+      }
+    }
   }
 }

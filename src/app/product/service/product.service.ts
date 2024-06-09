@@ -3,7 +3,8 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import {} from '@angular/fire/firestore';
 import { ProductModel } from '../model/product.model';
-import { map } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +27,17 @@ export class ProductService {
     return this.db.object('product/' + key).update(product);
   }
 
-  delete(key: any) {
-    return this.db.object('product/' + key).remove();
+  delete(key: any): Observable<void> {
+    return new Observable<void>((observer) => {
+      this.db.object('product/' + key).remove()
+        .then(() => {
+          observer.next();
+          observer.complete();
+        })
+        .catch((error) => {
+          observer.error(error);
+        });
+    });
   }
 
   getAll() {

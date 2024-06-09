@@ -1,66 +1,33 @@
-import { Component } from '@angular/core';
-import { UserService } from '../user/user.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserModel } from '../user/model/user.model';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.css',
+  styleUrls: ['./sign-up.component.css']
 })
+export class SignUpComponent implements OnInit {
+  signUpForm: FormGroup;
 
-// Mudar isso para user normal depois
-export class SignUpComponent {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private fb: FormBuilder, private authService: AuthService) {
+    this.signUpForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      userType: ['common', Validators.required]
+    });
+  }
 
-  submitError = {
-    message: 'Houve um error ao tentar fazer login!',
-    showAlert: false,
-  };
-
-  formGroup = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}'),
-    ]),
-  });
+  ngOnInit(): void {}
 
   onSubmit(): void {
-    if (this.formGroup.invalid) {
-      this.formGroup.markAllAsTouched();
-      return;
-    }
-
-    const email = this.formGroup.controls.email.value!.toString();
-    const password = this.formGroup.controls.password.value!.toString();
-
-    this.userService.getAll('users').forEach((usersList) => {
-      const filteredUsers = usersList.filter((rawUser) => {
-        const user = rawUser as UserModel;
-        if (user.email === email && user.password === password) return user;
-
-        return;
+    if (this.signUpForm.valid) {
+      const { email, password, userType } = this.signUpForm.value;
+      this.authService.signUp(email, password, userType).then(() => {
+        console.log('Usuário cadastrado com sucesso');
+      }).catch(error => {
+        console.error('Erro ao cadastrar usuário:', error);
       });
-
-      if (filteredUsers.length < 1) {
-        this.submitError = {
-          showAlert: true,
-          message: 'E-mail ou senha incorretos. Favor tentar novamente.',
-        };
-      } else if (filteredUsers.length === 1) {
-        console.log('Deu certo. Ir para o portal do usuário');
-        this.router.navigate(['/']);
-      } else {
-        this.submitError = {
-          showAlert: true,
-          message:
-            'Erro de registro. Foram encontrados múltiplos usuários correspondentes.',
-        };
-      }
-    });
-
-    return;
+    }
   }
 }

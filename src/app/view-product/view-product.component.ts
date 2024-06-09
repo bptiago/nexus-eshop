@@ -2,17 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../product/service/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductModel } from '../product/model/product.model';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-view-product',
   templateUrl: './view-product.component.html',
-  styleUrl: './view-product.component.css',
+  styleUrls: ['./view-product.component.css'],
 })
 export class ViewProductComponent implements OnInit {
+  key?: string;
+  product!: ProductModel;
+  userType: string | null = null;
+
   constructor(
     private productService: ProductService,
     private actRouter: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService // Injetando AuthService
   ) {}
 
   ngOnInit(): void {
@@ -24,10 +30,8 @@ export class ViewProductComponent implements OnInit {
         });
       }
     });
+    this.userType = this.authService.getUserType();
   }
-
-  key?: string;
-  product!: ProductModel;
 
   buyProduct() {
     const cartItems = sessionStorage.getItem('cart');
@@ -40,7 +44,15 @@ export class ViewProductComponent implements OnInit {
   }
 
   deleteProduct() {
-    this.productService.delete(this.key);
-    this.router.navigate(['/']);
+    if (this.key) {
+      this.productService.delete(this.key).subscribe({
+        next: () => {
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          console.error('Erro ao excluir o produto:', error);
+        }
+      });
+    }
   }
 }

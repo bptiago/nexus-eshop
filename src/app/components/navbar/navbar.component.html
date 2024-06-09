@@ -15,35 +15,26 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" [routerLink]="['/']"
-            >Início</a
-          >
+          <a class="nav-link active" aria-current="page" [routerLink]="['/']">Início</a>
         </li>
-        <li class="nav-item">
-          <a
-            class="nav-link active"
-            aria-current="page"
-            [routerLink]="['/cart']"
-            >Carrinho</a
-          >
+        <li class="nav-item" *ngIf="userType === 'common'">
+          <a class="nav-link active" aria-current="page" [routerLink]="['/cart']">Carrinho</a>
         </li>
-        <li class="nav-item">
-          <a
-            class="nav-link active"
-            aria-current="page"
-            [routerLink]="['/product']"
-            >Cadastrar produto</a
-          >
+        <li class="nav-item" *ngIf="userType === 'seller'">
+          <a class="nav-link active" aria-current="page" [routerLink]="['/product']">Cadastrar produto</a>
         </li>
       </ul>
-      <a [routerLink]="['/login']" class="text-decoration-none">
-        <button type="button" class="btn btn-outline-primary mx-2">
-          Login
-        </button>
-      </a>
-      <a [routerLink]="['/signUp']" class="text-decoration-none">
-        <button type="button" class="btn btn-primary">Registrar</button>
-      </a>
+      <div *ngIf="userType; else guestLinks">
+        <button type="button" class="btn btn-outline-danger mx-2" (click)="logout()">Logout</button>
+      </div>
+      <ng-template #guestLinks>
+        <a [routerLink]="['/login']" class="text-decoration-none">
+          <button type="button" class="btn btn-outline-primary mx-2">Login</button>
+        </a>
+        <a [routerLink]="['/signUp']" class="text-decoration-none">
+          <button type="button" class="btn btn-primary">Registrar</button>
+        </a>
+      </ng-template>
     </div>
   </div>
 </nav>

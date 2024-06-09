@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
   constructor(private userService: UserService, private router: Router) {}
@@ -34,31 +34,42 @@ export class LoginComponent {
     const email = this.formGroup.controls.email.value!.toString();
     const password = this.formGroup.controls.password.value!.toString();
 
-    this.userService.getAll('users').forEach((usersList) => {
+    const handleLogin = (usersList: any[], userType: 'users' | 'sellers') => {
       const filteredUsers = usersList.filter((rawUser) => {
         const user = rawUser as UserModel;
         if (user.email === email && user.password === password) return user;
-
         return;
       });
 
-      if (filteredUsers.length < 1) {
-        this.submitError = {
-          showAlert: true,
-          message: 'E-mail ou senha incorretos. Favor tentar novamente.',
-        };
-      } else if (filteredUsers.length === 1) {
+      if (filteredUsers.length === 1) {
+        const loggedInUser = filteredUsers[0];
+        localStorage.setItem('userType', loggedInUser.userType);
+        sessionStorage.setItem('userType', loggedInUser.userType);
+
         console.log('Deu certo. Ir para o portal do usuário');
         this.router.navigate(['/']);
-      } else {
+        return true;
+      } else if (filteredUsers.length > 1) {
         this.submitError = {
           showAlert: true,
           message:
             'Erro de registro. Foram encontrados múltiplos usuários correspondentes.',
         };
       }
-    });
+      return false;
+    };
 
-    return;
+    this.userService.getAll('users').forEach((usersList) => {
+      if (!handleLogin(usersList, 'users')) {
+        this.userService.getAll('sellers').forEach((sellersList) => {
+          if (!handleLogin(sellersList, 'sellers')) {
+            this.submitError = {
+              showAlert: true,
+              message: 'E-mail ou senha incorretos. Favor tentar novamente.',
+            };
+          }
+        });
+      }
+    });
   }
 }

@@ -29,4 +29,25 @@
       </div>
     </div>
   </div>
+
+  <div class="container text-center my-3">
+    <button type="button" class="btn btn-success" (click)="finalizePurchase()">Finalizar</button>
+  </div>
+
+  <div class="modal fade" tabindex="-1" id="successModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Compra</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Comprado com sucesso!</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -7,6 +7,7 @@ export interface UserModel {
   phone: string;
   cpf: string;
   password: string;
+  userType: 'common';
 }
 
 export interface User {

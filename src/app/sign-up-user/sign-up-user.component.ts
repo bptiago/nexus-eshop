@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-sign-up-user',
   templateUrl: './sign-up-user.component.html',
-  styleUrl: './sign-up-user.component.css',
+  styleUrls: ['./sign-up-user.component.css'],
 })
 export class SignUpUserComponent {
   constructor(
@@ -42,6 +42,7 @@ export class SignUpUserComponent {
       Validators.required,
       Validators.pattern(/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/),
     ]),
+    userType: new FormControl('common', [Validators.required]),
   });
 
   maskPhoneNumber() {
@@ -77,10 +78,13 @@ export class SignUpUserComponent {
     const { ddd, phoneNumber, ...userInfo } = this.signUpForm.value;
     const user = { phone: phone, ...userInfo } as UserModel;
 
+    const userType = this.signUpForm.controls.userType.value === 'seller' ? 'sellers' : 'users';
+
     this.userService
-      .save(user, 'users')
+      .save(user, userType)
       .then(() => {
         console.log('Usuário cadastrado.');
+        this.router.navigate(['/']);
       })
       .catch((error) => {
         this.submitError = {
@@ -88,7 +92,5 @@ export class SignUpUserComponent {
           showAlert: true,
         };
       });
-
-    this.router.navigate(['/']);
   }
 }

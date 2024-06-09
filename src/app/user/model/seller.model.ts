@@ -7,4 +7,5 @@ export interface SellerModel {
   phone: string;
   cnpj: string;
   password: string;
+  userType: 'seller';
 }
