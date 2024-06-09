@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../product/service/product.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductModel } from '../product/model/product.model';
 
 @Component({
@@ -11,7 +11,8 @@ import { ProductModel } from '../product/model/product.model';
 export class ViewProductComponent implements OnInit {
   constructor(
     private productService: ProductService,
-    private actRouter: ActivatedRoute
+    private actRouter: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -36,5 +37,10 @@ export class ViewProductComponent implements OnInit {
     } else {
       sessionStorage.setItem('cart', JSON.stringify(this.product));
     }
+  }
+
+  deleteProduct() {
+    this.productService.delete(this.key);
+    this.router.navigate(['/']);
   }
 }

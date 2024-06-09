@@ -15,13 +15,25 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Início</a>
+          <a class="nav-link active" aria-current="page" [routerLink]="['/']"
+            >Início</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Explorar</a>
+          <a
+            class="nav-link active"
+            aria-current="page"
+            [routerLink]="['/cart']"
+            >Carrinho</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Sobre</a>
+          <a
+            class="nav-link active"
+            aria-current="page"
+            [routerLink]="['/product']"
+            >Cadastrar produto</a
+          >
         </li>
       </ul>
       <a [routerLink]="['/login']" class="text-decoration-none">
@@ -32,16 +44,6 @@
       <a [routerLink]="['/signUp']" class="text-decoration-none">
         <button type="button" class="btn btn-primary">Registrar</button>
       </a>
-
-      <!-- <form class="d-flex" role="search">
-        <input
-          class="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form> -->
     </div>
   </div>
 </nav>

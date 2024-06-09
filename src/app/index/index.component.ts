@@ -15,7 +15,7 @@ export class IndexComponent implements OnInit {
   ngOnInit(): void {
     this.productService.getAll().subscribe((dbProducts) => {
       const products = dbProducts as ProductModel[];
-      this.products = products.slice(0, 6);
+      this.products = products;
     });
   }
 }

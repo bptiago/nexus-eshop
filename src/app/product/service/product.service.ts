@@ -26,6 +26,10 @@ export class ProductService {
     return this.db.object('product/' + key).update(product);
   }
 
+  delete(key: any) {
+    return this.db.object('product/' + key).remove();
+  }
+
   getAll() {
     return this.db
       .list('product')
